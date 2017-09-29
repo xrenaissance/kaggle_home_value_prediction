@@ -24,7 +24,7 @@ def featDf(data, train_idx, test_idx, output_path):
     X_train = pd.DataFrame(X_train, columns=data_col)
     X_test = pd.DataFrame(X_test, columns=data_col)
 
-    return X_train, X_test, y, sample, train_id, test_id
+    return X_train, X_test, train_id, test_id
 
 ###############################################################################################################
 # 运行xgb1
@@ -232,11 +232,12 @@ if __name__ == '__main__':
     #train_idx = train_data.index
 
     y = data.loc[data['log_error'].notnull(), 'log_error']
+	y.index = range(len(y))
     data.drop(['log_error'], axis=1, inplace=True)
 
     output_path = r'D:\PycharmProjects\kaggle_home_value_prediction\result/'
 
-    X_train, X_test, y, sample, train_id, test_id = featDf(data, train_idx, test_idx, output_path)
+    X_train, X_test, train_id, test_id = featDf(data, train_idx, test_idx, output_path)
     pred_data_xgb1 = XGB1(X_train, X_test, y, sample, train_id, test_id)
     pred_data_xgb2 = XGB2(X_train, X_test, y, sample, train_id, test_id, output_path)
     pred_data_lgb = LGB(X_train, X_test, y, sample, train_id, test_id)
