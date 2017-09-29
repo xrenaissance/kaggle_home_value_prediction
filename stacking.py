@@ -11,6 +11,7 @@ import xgboost as xgb
 def mae(y, y_pred):
     return np.sum([abs(y[i] - y_pred[i]) for i in range(len(y))]) / len(y)
 
+# 第一层基训练，然后将第一层的预测结果当做特征，用模型进行训练，得到最终结果
 def Stacking1(clf, X_train, y, X_test, nfolds):
     # 交叉验证
     skf = StratifiedKFold(n_splits=nfolds, shuffle=True, random_state=0)
